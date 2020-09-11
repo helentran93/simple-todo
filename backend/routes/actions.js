@@ -32,7 +32,7 @@ module.exports = {
                 return {};
             }
 
-            items[itemIndex].title = updated.title !== '' && typeof updated.title !== 'string' ? updated.title : items[itemIndex].title;
+            items[itemIndex].title = typeof updated.title === 'string' ? updated.title : items[itemIndex].title;
             items[itemIndex].order = typeof updated.order === 'number' && updated.order >= 0 ? updated.order : items[itemIndex].order;
             items[itemIndex].checked = typeof updated.checked === 'boolean' ? updated.checked : items[itemIndex].checked;
         
