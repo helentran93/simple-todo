@@ -6,13 +6,19 @@ module.exports = {
         return items;
     },
     getItemById: (itemId) => {
-        return items.find(item => item.id === itemId);
+        if (itemId && typeof itemId === 'string') return items.find(item => item.id === itemId);
+        return {};
     },
     createNewItem: (newItem) => {
-        newItem.id = uuidv4();
-        newItem.order = items.length + 1;
-        newItem.checked = false;
-        return items.push(newItem);
+        if(newItem.title !== '' && typeof newItem.title === 'string') {
+            newItem.id = uuidv4();
+            newItem.order = items.length + 1;
+            newItem.checked = false;
+            items.push(newItem);
+            return newItem;
+        } else {
+            return {};
+        }
     },
     deleteItem: (itemId) => {
         items = items.filter(item => item.id !== itemId);
@@ -20,9 +26,19 @@ module.exports = {
     },
     updateItem: (itemId, updated) => {
         const itemIndex = items.findIndex(item => item.id === itemId);
-        items[itemIndex].title = updated.title ? updated.title : items[itemIndex].title;
-        items[itemIndex].order = updated.order ? updated.order : items[itemIndex].order;
-        items[itemIndex].checked = updated.checked ? updated.checked : items[itemIndex].checked;
-        return items;
+        if (updated && itemIndex > -1) {
+            if (updated.title === '') {
+                items = items.filter(item => item.id !== itemId);
+                return {};
+            }
+
+            items[itemIndex].title = updated.title !== '' && typeof updated.title !== 'string' ? updated.title : items[itemIndex].title;
+            items[itemIndex].order = typeof updated.order === 'number' && updated.order >= 0 ? updated.order : items[itemIndex].order;
+            items[itemIndex].checked = typeof updated.checked === 'boolean' ? updated.checked : items[itemIndex].checked;
+        
+            return items[itemIndex];
+        } else {
+            return {};
+        }
     }
 }
