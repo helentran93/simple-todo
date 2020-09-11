@@ -3,7 +3,8 @@ const actions = require('../routes/actions');
 describe('todo list', () => {
     describe('adding a new item', () => {
         test('it should add a new item to the list', () => {
-            expect(actions.createNewItem({title: 'Buy some milk'})).not.toBe({});
+            const newItem = actions.createNewItem({title: 'Buy some milk'});
+            expect(newItem).not.toEqual({});
         });
     
         test('it should not add an empty named item', () => {
@@ -43,8 +44,8 @@ describe('todo list', () => {
     describe('removing the item', () => {
         const newItem = actions.createNewItem({title: 'Remove new item from the list'});
         test('it should not remove the item if id is invalid', () => {
-            expect(actions.deleteItem(1234)).not.toBe([]);
-            expect(actions.deleteItem('')).not.toBe([]);
+            expect(actions.deleteItem(1234).length).not.toBe(2);
+            expect(actions.deleteItem('').length).not.toBe(2);
         });
     
         test('it should remove the item if the id exists', () => {
