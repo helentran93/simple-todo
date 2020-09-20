@@ -49,7 +49,7 @@ describe('todo list', () => {
         });
     
         test('it should remove the item if the id exists', () => {
-            expect(actions.deleteItem(newItem.id)).toEqual(actions.getItems());
+            expect(actions.deleteItem(newItem.id).length).toBe(2);
         });
     });
     
